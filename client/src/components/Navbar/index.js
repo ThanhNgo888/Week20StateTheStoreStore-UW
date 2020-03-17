@@ -1,32 +1,69 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import "./style.css";
+import { useStoreContext } from "../../utils/GlobalState";
+import { LOGOUT } from "../../utils/actions";
 
-// Depending on the current path, this component sets the "active" class on the appropriate navigation link item
+ 
+
+
 function Navbar() {
-  return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <Link className="navbar-brand" to="/">
-        GitHub JobWatcher
-      </Link>
-      <div>
-        <ul className="navbar-nav">
-          <li className="nav-item">
-            <Link
-              to="/"
-              className={
-                window.location.pathname === "/" || window.location.pathname === "/home"
-                  ? "nav-link active"
-                  : "nav-link"
-              }
-            >
-              Home
-            </Link>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  );
+
+    const [state, dispatch] = useStoreContext();
+
+    function logout() {
+        dispatch({
+            type: LOGOUT
+        })
+    }
+
+    useEffect(() => {
+
+    }, []);
+
+    function getNav(loggedin) {
+        if (loggedin) {
+            return (
+                <div className="navbar-nav">
+                    <Link className="nav-item nav-link active" to="/">
+                        Home <span className="sr-only">(current)</span>
+                    </Link>
+                    <Link className="nav-item nav-link" to="/Cart">
+                        Shopping Cart
+                    </Link>
+                    <Link className="nav-item nav-link" onClick={() => logout()} to="/">
+                        Logout
+                    </Link>
+                </div>
+            );
+        } else {
+            return (
+                <div className="navbar-nav">
+                    <Link className="nav-item nav-link active" to="/">
+                        Home <span className="sr-only">(current)</span>
+                    </Link>
+                    <Link className="nav-item nav-link" to="/Login">
+                        Login
+                </Link>
+                    <Link className="nav-item nav-link" to="/Signup">
+                        Signup
+                </Link>
+                </div>
+            );
+        }
+    }
+
+    return (
+        <nav className="navbar navbar-expand-lg navbar-light bg-warning">
+            <a className="navbar-brand" href="/"> <span className="display-4" role="img" >Mern App - BestBuy</span> </a>
+            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarNavAltMarkup" style={{ fontSize: 20 }}>
+                {getNav(state.loggedin)}
+            </div>
+        </nav>
+
+    );
 }
 
 export default Navbar;
