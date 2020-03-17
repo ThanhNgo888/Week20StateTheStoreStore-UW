@@ -1,13 +1,16 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import './App.css';
+
 import Navbar from "./components/Navbar"
+import Wrapper from "./components/Wrapper"
+
 import Home from "./pages/Home"
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import Cart from "./pages/Cart"
-import Wrapper from "./components/Wrapper"
 import Item from "./pages/Item"
+
 import { StoreProvider } from './utils/GlobalState';
 
 
